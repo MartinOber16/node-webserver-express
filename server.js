@@ -1,10 +1,11 @@
 const express = require('express');
 const app = express();
 const hbs = require('hbs');
-require('./hbs/helpers'); 
+require('dotenv').config();
+require('./hbs/helpers');
 
 // Obtener el puerto
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 // Middlewares
 app.use( express.static( __dirname + '/public'));
@@ -13,17 +14,17 @@ app.use( express.static( __dirname + '/public'));
 hbs.registerPartials(__dirname + '/views/parciales/');
 app.set('view engine', 'hbs');
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
     res.render('home',{
         nombre: 'martin ober'
     });
 })
 
-app.get('/about', function (req, res) {
-    res.render('about');
+app.get('/about', (req, res) => {
+    res.render('about');    
 })
 
-app.get('/data', function (req, res) {
+app.get('/data', (req, res) => {
     let salida = {
         nombre: 'Martin',
         edad: 33,
@@ -31,6 +32,11 @@ app.get('/data', function (req, res) {
     }
     res.send(salida);
 })
+
+// app.get('*', (req, res) => {
+//     res.render('404 | Page not found');
+// })
+
  
 app.listen(port, () => {
     console.log(`Escuchando peticiones en el puerto ${port}`);
